@@ -1,18 +1,15 @@
 # 🧩 CS50P — Lecture 8
 
-# Object-Oriented Programming (OOP) in Python
+## ⭐ Object-Oriented Programming (OOP) in Python
 
+In this lecture, we move from simple data structures like lists and dictionaries into the more powerful world of **Object-Oriented Programming**.
+These notes explain both *what* happens and *why* it happens — including how Python behaves behind the scenes.
 
-In this lecture, we move from working with simple data structures like lists, tuples, and dictionaries into the more powerful world of **Object-Oriented Programming**.
-These notes explain not only *what* happens but also *why* it happens — including Python’s internal logic and behavior.
-
-This document is designed as a complete learning resource for CS50P students.
+This document is designed as a complete and clean learning resource for CS50P students.
 
 ---
 
-# 1. Returning Multiple Values in Python
-
-Consider the following function:
+# 📘 1. Returning Multiple Values in Python
 
 ```python
 def get_student():
@@ -21,25 +18,20 @@ def get_student():
     return name, house
 ```
 
-You might think this function returns **two values**, but Python actually returns **one value**:
-a **tuple**.
+Although it looks like the function returns **two separate values**, Python actually returns a **single tuple**:
 
 ```python
 (name, house)
 ```
 
-### Tuples
+### ✔ Tuples
 
-A **tuple** is similar to a list, but it is **immutable** — you cannot change its items.
-
-Example:
+A tuple is similar to a list but **immutable**.
 
 ```python
 student = ("Padma", "Gryffindor")
-student[1] = "Ravenclaw"
+student[1] = "Ravenclaw"  # ❌ Error
 ```
-
-Output:
 
 ```
 TypeError: 'tuple' object does not support item assignment
@@ -47,56 +39,53 @@ TypeError: 'tuple' object does not support item assignment
 
 ### When should you use a tuple?
 
-✔ When the structure is fixed
-✔ When the data should not change
-✔ When you want safer code with fewer accidental modifications
+* ✔ When the structure is fixed
+* ✔ When data should not change
+* ✔ When you want safer, more predictable code
 
 ---
 
-# 2. If You Need Mutability → Use a List
+# 📗 2. If You Need Mutability → Use a List
 
 ```python
 return [name, house]
 ```
 
-Now this works:
+Lists allow modification:
 
 ```python
-student[1] = "Ravenclaw"
+student[1] = "Ravenclaw"  
 ```
 
-But in most cases, especially when representing structured data like a “student,” a simple list is not expressive enough.
+But lists don’t express meaning clearly enough for structured data.
 
 ---
 
-# 3. More Readable and Safer → Use a Dictionary
+# 📕 3. More Expressive and Safer → Use a Dictionary
 
 ```python
 return {"name": name, "house": house}
 ```
 
-Usage:
+Access:
 
 ```python
 student["name"]
 student["house"]
 ```
 
-Dictionaries give meaningful names to the data and are often a stepping stone to creating full classes.
+Dictionaries are often the stepping stone toward creating **custom classes**.
 
 ---
 
-# 4. Creating Your Own Data Type with Classes
+# 🏗 4. Defining Your Own Data Type with Classes
 
 ```python
 class Student:
     ...
 ```
 
-A **class** defines a new data type.
-An **object (instance)** is a variable created from that class.
-
-Example:
+An object is an **instance** of a class:
 
 ```python
 student = Student()
@@ -104,17 +93,17 @@ student.name = "Harry"
 student.house = "Gryffindor"
 ```
 
-This approach works but is not ideal because:
+But this is unsafe:
 
-❌ There is no validation
-❌ Attributes can be added incorrectly
-❌ Structure is not guaranteed
+* ❌ No validation
+* ❌ Wrong attributes can be added
+* ❌ Structure is not guaranteed
 
-The solution? → A constructor.
+Solution: **constructor**.
 
 ---
 
-# 5. The `__init__` Constructor
+# ⚙️ 5. The `__init__` Constructor
 
 ```python
 class Student:
@@ -123,55 +112,50 @@ class Student:
         self.house = house
 ```
 
-This method is called **automatically** when you create a new object:
+Usage:
 
 ```python
 student = Student("Harry", "Gryffindor")
 ```
 
-Internally Python does:
+Internally:
 
 ```python
 Student.__init__(student, "Harry", "Gryffindor")
 ```
 
-✔ `self` refers to the current object
-✔ `self.attribute = value` creates attributes
-
 ---
 
-# 6. Validation (Checking Values) with `raise`
+# 🛡 6. Validation with `raise`
 
 ```python
 if not name:
     raise ValueError("Name missing")
 
-if house not in ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]:
+if house not in valid_houses:
     raise ValueError("Invalid house")
 ```
 
-`raise` interrupts the program with a meaningful error message.
-
-Validation is essential in real-world programs, and OOP helps enforce it.
+Validation ensures correctness and prevents incorrect assignments.
 
 ---
 
-# 7. Making Objects Printable with `__str__`
+# 📝 7. Making Objects Printable with `__str__`
 
-Without defining `__str__`, printing an object gives:
+Default print:
 
 ```
 <__main__.Student object at 0x10273be80>
 ```
 
-Add:
+Custom version:
 
 ```python
 def __str__(self):
     return f"{self.name} from {self.house}"
 ```
 
-Output becomes human-readable:
+Output:
 
 ```
 Harry from Gryffindor
@@ -179,11 +163,7 @@ Harry from Gryffindor
 
 ---
 
-# 8. Methods — Functions Inside a Class
-
-A function written inside a class is called a **method**.
-
-Example:
+# 🧩 8. Methods — Functions Inside Classes
 
 ```python
 def charm(self):
@@ -193,14 +173,7 @@ def charm(self):
         case _: return "✨"
 ```
 
-Usage:
-
-```python
-student.charm()
-```
-
-### Why must methods include `self`?
-
+Why `self`?
 Because Python internally calls:
 
 ```python
@@ -209,11 +182,7 @@ Student.charm(student)
 
 ---
 
-# 9. Properties — Controlled Access to Attributes
-
-This is one of the most important parts of Lecture 8.
-
-Suppose we define:
+# 🔒 9. Properties — Controlled Attribute Access
 
 ```python
 @property
@@ -222,46 +191,24 @@ def house(self):
 
 @house.setter
 def house(self, house):
-    if house not in [...]:
+    if house not in valid_houses:
         raise ValueError("Invalid house")
     self._house = house
 ```
 
-Now when you do:
+Python automatically calls the setter when you do:
 
 ```python
-student.house = "Number Four, Privet Drive"
+student.house = "Privet Drive"
 ```
-
-Python thinks:
-
-> “house has a setter, so I shouldn't assign directly.
-> I must call the setter method.”
-
-Internally Python runs:
-
-```python
-Student.house.__set__(student, "Number Four, Privet Drive")
-```
-
-Inside the setter, this happens:
-
-```python
-if house not in valid_houses:
-    raise ValueError("Invalid house")
-```
-
-Thus validation prevents incorrect assignments.
 
 ### Why `_house`?
 
-`_house` is a naming convention for “private-like” attributes used behind the scenes.
+By convention, attributes starting with `_` are “internal” and not meant to be accessed directly.
 
 ---
 
-# 10. Class Methods (`@classmethod`)
-
-Methods that belong to the class (not only to objects).
+# 🏛 10. Class Methods (`@classmethod`)
 
 ```python
 @classmethod
@@ -277,13 +224,11 @@ Usage:
 student = Student.get()
 ```
 
-This creates a new object using the class itself (`cls`).
+`cls` refers to the class itself.
 
 ---
 
-# 11. Static Methods (`@staticmethod`)
-
-They do not depend on the class or an instance.
+# 🧰 11. Static Methods (`@staticmethod`)
 
 ```python
 class Math:
@@ -292,13 +237,11 @@ class Math:
         return a + b
 ```
 
-Use static methods for small helper functions logically related to the class.
+Use static methods for helpers logically related to the class.
 
 ---
 
-# 12. Inheritance (Extending Classes)
-
-A subclass inherits attributes and methods from a parent class.
+# 🧬 12. Inheritance (Extending Classes)
 
 ```python
 class Wizard:
@@ -311,24 +254,19 @@ class Student(Wizard):
         self.house = house
 ```
 
-`super()` calls the constructor of the parent class.
-
-This technique is widely used — even Python’s built-in exception classes follow this hierarchy.
+`super()` calls the parent constructor.
 
 ---
 
-# 13. Operator Overloading
-
-Python lets you redefine how operators work for your class.
-
-Example: overloading `+` for Vault objects:
+# ➕ 13. Operator Overloading
 
 ```python
 def __add__(self, other):
-    g = self.galleons + other.galleons
-    s = self.sickles + other.sickles
-    k = self.knuts + other.knuts
-    return Vault(g, s, k)
+    return Vault(
+        self.galleons + other.galleons,
+        self.sickles + other.sickles,
+        self.knuts + other.knuts,
+    )
 ```
 
 Usage:
@@ -339,7 +277,7 @@ total = potter + weasley
 
 ---
 
-# 14. Additional Tools
+# 🛠 14. Additional Tools
 
 ### `type()`
 
@@ -355,19 +293,20 @@ A placeholder used when code will be added later.
 
 ---
 
-# ✔ Summary of What You Learned
+# 🎯 Summary of What You Learned
 
-By the end of Lecture 8 you should understand:
+> ### ✔ By the end of Lecture 8, you should understand:
 
-✔ The difference between tuple, list, and dict for structured data  
-✔ How classes and objects work  
-✔ The purpose of `__init__`  
-✔ How to validate attributes using `raise`  
-✔ How to make objects printable with `__str__`  
-✔ What methods are and why they require `self`  
-✔ How `@property` and setters work internally  
-✔ How class methods and static methods differ  
-✔ How inheritance enables code reuse  
-✔ How to overload operators like `+`  
-✔ How Python behaves behind the scenes when you manipulate object attributes  
+* **Tuple vs List vs Dict** for structured data
+* **How classes and objects work**
+* The purpose of **`__init__`**
+* Validating attributes using **`raise`**
+* Making objects printable with **`__str__`**
+* Why methods require **`self`**
+* How **`@property`** and setters work
+* How **class methods** and **static methods** differ
+* How **inheritance** enables code reuse
+* How to **overload operators** like `+`
+* How Python behaves internally when objects are manipulated
+
 ---
