@@ -359,14 +359,15 @@ A placeholder used when code will be added later.
 
 By the end of Lecture 8 you should understand:
 
-✔ The difference between tuple, list, and dict for structured data
-✔ How classes and objects work
-✔ The purpose of `__init__`
-✔ How to validate attributes using `raise`
-✔ How to make objects printable with `__str__`
-✔ What methods are and why they require `self`
-✔ How `@property` and setters work internally
-✔ How class methods and static methods differ
-✔ How inheritance enables code reuse
-✔ How to overload operators like `+`
-✔ How Python behaves behind the scenes when you manipulate object attributes
+✔ The difference between tuple, list, and dict for structured data  
+✔ How classes and objects work  
+✔ The purpose of `__init__`  
+✔ How to validate attributes using `raise`  
+✔ How to make objects printable with `__str__`  
+✔ What methods are and why they require `self`  
+✔ How `@property` and setters work internally  
+✔ How class methods and static methods differ  
+✔ How inheritance enables code reuse  
+✔ How to overload operators like `+`  
+✔ How Python behaves behind the scenes when you manipulate object attributes  
+---
